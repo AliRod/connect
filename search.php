@@ -39,7 +39,7 @@
           <input type='text' name='winery'><br>
         </div>
         <?php
-          require_once("dbconnect.php");
+          require_once("php/dbconnect.php");
 
           /* REGION */
           echo "<div class='form-group'><label for='region'>Region:</label>\n<select name='region'>\n";

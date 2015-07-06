@@ -1,0 +1,23 @@
+commit f435bd26dd62845fd2206c789614a277c2275a96
+Author: AliRod <s3372356@student.rmit.edu.au>
+Date:   Mon Jul 6 09:22:36 2015 +0000
+
+    basic form query and answer functional
+
+commit 246fd8bfb592cc64b21e9ca7d2dbf20268e9a0b0
+Author: AliRod <s3372356@student.rmit.edu.au>
+Date:   Thu Jun 11 11:59:07 2015 +0000
+
+    added config.php
+
+commit 5d2124952ae2d94085e76b3672471485850c47b5
+Author: AliRod <s3372356@student.rmit.edu.au>
+Date:   Thu Jun 11 09:46:18 2015 +0000
+
+    added readme
+
+commit a35599e9df4b4a27564c2d207b758c6d0c56c3b2
+Author: Ubuntu <ubuntu@ip-172-31-15-240.ap-southeast-2.compute.internal>
+Date:   Thu Jun 11 09:31:53 2015 +0000
+
+    added connect.php and test files

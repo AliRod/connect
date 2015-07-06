@@ -1,16 +1,27 @@
 <?php
 
   /* connect to DB */
-  require_once('dbconnect.php');
+  require_once('php/dbconnect.php');
 
   try {
 
     $wines = getWines($dbconn, $_GET);
 
+    /* generate unique key from query */
+    $cache_key = md5($_SERVER['QUERY_STRING']);
+    print $cache_key;
+
+    /* cache search results */
+    apc_store($cache_key, $wines);
+
     /* close DB connection */
     $dbconn = null;
 
-    fillTemplate($wines);
+    /* redirect user to results page */
+    header("Location: results.php?s=$cache_key");
+    exit();
+
+    // fillTemplate($wines);
 
   } catch (PDOException $e) {
       print "Error!: " . $e->getMessage() . "<br>";
@@ -23,9 +34,9 @@
 function getWines($dbconn, $params) {
 
   /* DEBUG GET VARIABLES */
-  foreach ($params as $key => $value) {
-    echo $key."\t".$value."\n";
-  }
+  // foreach ($params as $key => $value) {
+  //   echo $key."\t".$value."\n";
+  // }
 
   /* check input and prepare query and variables used with LIKE 
    * must include VALIDATION here later on 
@@ -110,12 +121,15 @@ function getWines($dbconn, $params) {
   if (count($ands) > 0) {
     $sql .= 'AND ';
     $sql .= implode(' AND ', $ands);
-    $sql .= $having;
   }
+  $sql .= $having;
+
 
 
   /* debug */
-  print $sql;
+  // print $sql;
+
+
 
   /* PDO prepare statement */
   $pst = $dbconn->prepare($sql);
@@ -180,13 +194,13 @@ function fillTemplate($results) {
   // }
   // print "</table>";
 
-  require_once ("MiniTemplator.class.php");
+  require_once ("php/MiniTemplator.class.php");
 
   $numberOfResults = count($results);
 
   $t = new MiniTemplator;
 
-  $t->readTemplateFromFile ("searchresult_template.htm");
+  $t->readTemplateFromFile ("html/searchresult_template.htm");
 
   $t->setVariable ("numberOfResults", $numberOfResults);
   $t->addBlock ("numresults");
