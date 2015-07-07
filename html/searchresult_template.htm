@@ -5,8 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Winestore Search</title>
+    <title>Wine Store Results</title>
 
+    <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
     <!-- Bootstrap -->
     <link href="../css/bootstrap.css" rel="stylesheet">
     <link href="../css/bootstrap-theme.css" rel="stylesheet">
@@ -21,46 +22,73 @@
   </head>
 
   <body>
-    <h1>Welcome to the Winestore!</h1>
-
-    <!-- $BeginBlock numresults -->
-    <h2>Your search returned ${numberOfResults} wines</h2>
-    <!-- $EndBlock numresults -->
-
-    <table>
-      <tr>
-        <th>ID</th>
-        <th>Wine</th>
-        <th>Variety</th>
-        <th>Year</th>
-        <th>Winery</th>
-        <th>Region</th>
-        <th>Minimum Cost</th>
-        <th>Stock On Hand</th>
-        <th>Bottles Ordered</th>
-        <th>Total Sales $</th>
-      </tr>
-
-    <!-- $BeginBlock winerow -->
-      <tr>
-        <td>${ID}</td>
-        <td>${Wine}</td>
-        <td>${Variety}</td>
-        <td>${Year}</td>
-        <td>${Winery}</td>
-        <td>${Region}</td>
-        <td>${MinimumCost}</td>
-        <td>${StockOnHand}</td>
-        <td>${BottlesOrdered}</td>
-        <td>${TotalSales}</td>
-      </tr>
-    <!-- $EndBlock winerow -->
-
-    </table>
+    <div class='container-fluid'>
+        <div class='centre-panel'>
+            <header class='sr-header'>
+                <h1><span class='fancy'>The Wine Store</span></h1>
+                </div>
+            </header>
+            <div class='row'>
+                <table class="table col-md-12">
+                    
+                    <!-- $BeginBlock numresults -->
+                    <caption>Your search returned ${numberOfResults} wines
+                        <a href='search.php'>Back to Search</a> 
+                    </caption>
+                    <!-- $EndBlock numresults -->
+                    <thead>
+                        <!-- $BeginBlock tablehead -->
+                        <tr>
+                            <th>ID</th>
+                            <th>Wine Name</th>
+                            <th>Variety</th>
+                            <th>Year</th>
+                            <th>Winery</th>
+                            <th>Region</th>
+                            <th>$ Minimum Cost</th>
+                            <th>Stock On Hand</th>
+                            <th>Bottles Ordered</th>
+                            <th>$ Total Sales</th>
+                        </tr>
+                        <!-- $EndBlock tablehead -->
+                    </thead>
+                    <tbody>
+                        <!-- $BeginBlock winerow -->
+                        <tr>
+                            <td>${ID}</td>
+                            <td>${Wine}</td>
+                            <td>${Variety}</td>
+                            <td>${Year}</td>
+                            <td>${Winery}</td>
+                            <td>${Region}</td>
+                            <td>${MinimumCost}</td>
+                            <td>${StockOnHand}</td>
+                            <td>${BottlesOrdered}</td>
+                            <td>${TotalSales}</td>
+                        </tr>
+                        <!-- $EndBlock winerow -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../js/bootstrap.js"></script>
+
+    <!-- Sticky Table Headers Plugin (c) 2011 Jonas Mosbech -->
+    <!-- https://github.com/jmosbech/StickyTableHeaders/blob/master/license.txt -->
+    <script src="../js/jquery.stickytableheaders.min.js"></script>
+    <script>
+        // adding filler rows
+        // for(var i = 0; i < 3; i++){
+        //   $('tbody tr').clone().appendTo('table');
+        // }
+        var offset = $('.navbar').height();
+        $("html:not(.legacy) table").stickyTableHeaders({fixedOffset: offset});
+    </script>
+
   </body>
 </html>

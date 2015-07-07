@@ -100,7 +100,8 @@ function getWines($dbconn, $params) {
 
     LEFT JOIN
     (
-      SELECT wv.wine_id, GROUP_CONCAT(g.variety ORDER BY wv.id) AS grapes
+      SELECT wv.wine_id, GROUP_CONCAT(g.variety ORDER BY wv.id SEPARATOR " ") AS grapes
+      /* used space as separator instead of comma for cleaner output */
       FROM wine_variety wv
       LEFT JOIN grape_variety g
       ON wv.variety_id=g.variety_id

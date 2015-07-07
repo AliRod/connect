@@ -18,10 +18,15 @@ function fillTemplate($results) {
 
   $t = new MiniTemplator;
 
-  $t->readTemplateFromFile ("html/searchresult_template.htm");
+  $ok = $t->readTemplateFromFile ("html/searchresult_template.htm");
+  if (!$ok) die ("MiniTemplator.readTemplateFromFile failed.");
 
   $t->setVariable ("numberOfResults", $numberOfResults);
   $t->addBlock ("numresults");
+
+  if (count($results) > 0) {
+    $t->addBlock ("tablehead");
+  }
 
   foreach ($results as $row) {
     $t->setVariable ("ID", $row['wine_id']);
@@ -36,7 +41,6 @@ function fillTemplate($results) {
     $t->setVariable ("TotalSales", $row['revenue']);
     $t->addBlock ("winerow");
   }
-
   $t->generateOutput();
 
 }

@@ -1,7 +1,110 @@
-/*select {
-            height:24px;
-            background:#fff;
-            border:0;
-            outline: 1px inset #ddd;
-            outline-offset:-1px;
-}*/
+
+
+
+header {
+	margin: 2em 0;
+}
+header.sr-header {
+	margin: 2em 0 0 0;
+}
+h1 {
+	text-align: center;
+	color:#000;
+}
+h1 span.fancy {
+	font-size: 2em;
+	font-family: 'Lobster', cursive;
+}
+
+label {
+	text-align: right;
+}
+
+button {
+	margin-top:2em;
+	color:#fff;
+}
+
+div.sr {
+	margin-bottom: 0.5em;
+}
+.centre-panel {
+	height:100%;
+	background-color: white;
+}
+.container, body, html {
+	height:100%;
+}
+button, .btn {
+	background:black;
+	background-color: #222;
+}
+button:hover, .btn:hover {
+	background:#222;
+}
+button:focus, .btn:focus {
+	background:#222;
+	background-color: #222;
+}
+.btn:active, button:active, .btn.active, button.active {
+	background-color: #222;
+	background:#222;
+}
+
+/* table styles */
+.fixed_headers {
+  table-layout: fixed;
+}
+
+.fixed_headers thead tr {
+  display: block;
+  position: relative;
+}
+.fixed_headers tbody {
+  display: block;
+  overflow: auto;
+}
+
+caption {
+	padding:0 5px 10px 5px;
+	font-size:16px;
+	line-height: 1;
+	color:#666;
+}
+caption a {
+	float:right;
+	color:inherit;
+	text-decoration: underline;
+}
+caption a:hover {
+	color:#000;
+}
+caption a:visited {
+	color:#666;
+}
+caption a:active {
+	color:#000;
+}
+
+td, th {
+	border:1px solid #fff;
+	padding: 0.7rem;
+	text-align: left;
+}
+thead tr th{
+	color: #fff;
+	background-color: #000;
+	font-weight:normal;
+	height:70px;
+}
+
+tbody tr {
+	background-color: #dfdfdf;
+	color: #333;
+}
+
+tbody tr:nth-child(even) {
+	background-color: #efeff0;
+}
+
+
