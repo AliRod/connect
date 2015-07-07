@@ -1,27 +1,37 @@
 <?php
 
-  /* connect to DB */
-  require_once('php/dbconnect.php');
-
   try {
 
-    $wines = getWines($dbconn, $_GET);
+    /* generate unique key from query 
+    md5 not safe for passwords but ok for use as cache key */
+    $cache_key = hash('md5', $_SERVER['QUERY_STRING']);
 
-    /* generate unique key from query */
-    $cache_key = md5($_SERVER['QUERY_STRING']);
-    print $cache_key;
+    /* check if search results already cached */
+    if (apc_exists('$cache_key')) {
 
-    /* cache search results */
-    apc_store($cache_key, $wines);
+      /* redirect user to results page */
+      header("Location: results.php?search=$cache_key");
+      exit();
 
-    /* close DB connection */
-    $dbconn = null;
+    } else {
 
-    /* redirect user to results page */
-    header("Location: results.php?s=$cache_key");
-    exit();
+      /* connect to DB */
+      require_once('php/dbconnect.php');
 
-    // fillTemplate($wines);
+      /* query database */
+      $wines = getWines($dbconn, $_GET);
+
+      /* cache search results */
+      apc_store($cache_key, $wines);
+
+      /* close DB connection */
+      $dbconn = null;
+
+      /* redirect user to results page */
+      header("Location: results.php?search=$cache_key");
+      exit();     
+
+    }
 
   } catch (PDOException $e) {
       print "Error!: " . $e->getMessage() . "<br>";
@@ -33,14 +43,14 @@
 
 function getWines($dbconn, $params) {
 
-  /* DEBUG GET VARIABLES */
+  /* DEBUG QUERY STRING */
   // foreach ($params as $key => $value) {
-  //   echo $key."\t".$value."\n";
+  //   print $key."\t".$value."\n";
   // }
 
-  /* check input and prepare query and variables used with LIKE 
-   * must include VALIDATION here later on 
-   */
+  /* TO DO: VALIDATION! */
+
+  /* prepare AND and HAVING clauses */
 
   if($params['winename']) {
     $ands[] = 'w.wine_name LIKE :winename ';
@@ -65,7 +75,7 @@ function getWines($dbconn, $params) {
   if($params['grape'] != 'Any') $having = ' HAVING FIND_IN_SET(:grape, wvg.grapes)>0 ';
 
 
-  /* build sql statement */
+  /* build SQL query */
   $sql = 'SELECT 
       w.wine_id, 
       w.wine_name,
@@ -124,12 +134,8 @@ function getWines($dbconn, $params) {
   }
   $sql .= $having;
 
-
-
-  /* debug */
-  // print $sql;
-
-
+  /* debug finished query */
+  //print $sql;
 
   /* PDO prepare statement */
   $pst = $dbconn->prepare($sql);
@@ -169,57 +175,6 @@ function getWines($dbconn, $params) {
   $results = $pst->fetchAll();
 
   return $results;
-
-}
-
-
-function fillTemplate($results) {
-
-  //   /* test html printout */
-  // print "<table>";
-  // print "<tr><th>Wine ID</th><th>Wine Name</th></tr>";
-  // foreach ($results as $row) {
-  //   print "<tr>";
-  //   print "<td>".$row['wine_id']."</td>";
-  //   print "<td>".$row['wine_name']."</td>";
-  //   print "<td>".$row['grapes']."</td>";
-  //   print "<td>".$row['year']."</td>";
-  //   print "<td>".$row['winery_name']."</td>";
-  //   print "<td>".$row['region_name']."</td>";
-  //   print "<td>".$row['mincost']."</td>";
-  //   print "<td>".$row['onhand']."</td>";
-  //   print "<td>".$row['ordered']."</td>";
-  //   print "<td>".$row['revenue']."</td>";
-  //   print "</tr>";
-  // }
-  // print "</table>";
-
-  require_once ("php/MiniTemplator.class.php");
-
-  $numberOfResults = count($results);
-
-  $t = new MiniTemplator;
-
-  $t->readTemplateFromFile ("html/searchresult_template.htm");
-
-  $t->setVariable ("numberOfResults", $numberOfResults);
-  $t->addBlock ("numresults");
-
-  foreach ($results as $row) {
-    $t->setVariable ("ID", $row['wine_id']);
-    $t->setVariable ("Wine", $row['wine_name']);
-    $t->setVariable ("Variety", $row['grapes']);
-    $t->setVariable ("Year", $row['year']);
-    $t->setVariable ("Winery", $row['winery_name']);
-    $t->setVariable ("Region", $row['region_name']);
-    $t->setVariable ("MinimumCost", $row['mincost']);
-    $t->setVariable ("StockOnHand", $row['onhand']);
-    $t->setVariable ("BottlesOrdered", $row['ordered']);
-    $t->setVariable ("TotalSales", $row['revenue']);
-    $t->addBlock ("winerow");
-  }
-
-  $t->generateOutput();
 
 }
 

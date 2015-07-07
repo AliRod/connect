@@ -1,13 +1,10 @@
 <?php
 
+//print_r(apc_cache_info());
 
-// $bar = 'BAR';
-// apc_store('foo', $bar);
-// var_dump(apc_fetch('foo'));
+$key = $_GET['search'];
 
-$key = $_GET['s'];
-
-print $key;
+//print $key;
 
 $searchresult = apc_fetch($key);
 
