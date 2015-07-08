@@ -9,9 +9,9 @@
 
     <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
     <!-- Bootstrap -->
-    <link href="../css/bootstrap.css" rel="stylesheet">
-    <link href="../css/bootstrap-theme.css" rel="stylesheet">
-    <link href="../css/winestore.css" rel="stylesheet">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.css" rel="stylesheet">
+    <link href="css/winestore.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -28,7 +28,7 @@
             <h1><span class='fancy'>The Wine Store</span></h1>       
           </header>
 
-          <form class='form-horizontal' action='answer.php' method='GET'>
+          <form class='form-horizontal' action='php/answer.php' method='GET'>
           <div class='col-xs-9 col-xs-offset-3'>
             <p class='form-control-static text-uppercase search-instructions'>enter your search terms</p>
           </div>
@@ -48,6 +48,7 @@
             </div>
           </div>
           <?php
+            require_once('php/config.php');
             require_once("php/dbconnect.php");
 
             /* REGION */

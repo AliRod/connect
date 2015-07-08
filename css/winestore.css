@@ -65,24 +65,24 @@ button:focus, .btn:focus {
   overflow: auto;
 }
 
-caption {
+caption, .toplink {
 	padding:0 5px 10px 5px;
 	font-size:16px;
 	line-height: 1;
 	color:#666;
 }
-caption a {
+caption a, a.toplink {
 	float:right;
 	color:inherit;
 	text-decoration: underline;
 }
-caption a:hover {
+caption a:hover, a.toplink:hover {
 	color:#000;
 }
-caption a:visited {
+caption a:visited, a.toplink:visited {
 	color:#666;
 }
-caption a:active {
+caption a:active, a.toplink:active {
 	color:#000;
 }
 

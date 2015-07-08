@@ -1,6 +1,10 @@
 <?php
+  require_once('config.php');
 
   try {
+
+    /* occasionally clearing cache during testing */
+    //apc_clear_cache();
 
     /* generate unique key from query 
     md5 not safe for passwords but ok for use as cache key */
@@ -10,13 +14,13 @@
     if (apc_exists('$cache_key')) {
 
       /* redirect user to results page */
-      header("Location: results.php?search=$cache_key");
+      header("Location: ../results.php?search=$cache_key");
       exit();
 
     } else {
 
       /* connect to DB */
-      require_once('php/dbconnect.php');
+      require_once('dbconnect.php');
 
       /* query database */
       $wines = getWines($dbconn, $_GET);
@@ -28,7 +32,7 @@
       $dbconn = null;
 
       /* redirect user to results page */
-      header("Location: results.php?search=$cache_key");
+      header("Location: ../results.php?search=$cache_key");
       exit();     
 
     }
@@ -51,7 +55,6 @@ function getWines($dbconn, $params) {
   /* TO DO: VALIDATION! */
 
   /* prepare AND and HAVING clauses */
-
   if($params['winename']) {
     $ands[] = 'w.wine_name LIKE :winename ';
     $winename = '%'.$params['winename'].'%';

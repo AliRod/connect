@@ -1,58 +1,49 @@
 <?php
 
-//print_r(apc_cache_info());
+  require_once('php/config.php');
 
-$key = $_GET['search'];
+  $key = $_GET['search'];
 
-//print $key;
+  //print $key;
 
-$searchresult = apc_fetch($key);
+  $searchresult = apc_fetch($key);
 
-fillTemplate($searchresult);
+  fillTemplate($searchresult);
 
-function fillTemplate($results) {
+  function fillTemplate($results) {
 
-  require_once ("php/MiniTemplator.class.php");
+    require_once ("php/MiniTemplator.class.php");
 
-  $numberOfResults = count($results);
+    $numberOfResults = count($results);
 
-  $t = new MiniTemplator;
+    $t = new MiniTemplator;
 
-  $ok = $t->readTemplateFromFile ("html/searchresult_template.htm");
-  if (!$ok) die ("MiniTemplator.readTemplateFromFile failed.");
+    $ok = $t->readTemplateFromFile ("html/searchresult_template.htm");
+    if (!$ok) die ("MiniTemplator.readTemplateFromFile failed.");
 
-  $t->setVariable ("numberOfResults", $numberOfResults);
-  $t->addBlock ("numresults");
+    $t->setVariable ("numberOfResults", $numberOfResults);
+    $t->addBlock ("numresults");
 
-  if (count($results) > 0) {
-    $t->addBlock ("tablehead");
+    if (count($results) > 0) {
+      $t->addBlock ("tablehead");
+    }
+
+    foreach ($results as $row) {
+      $t->setVariable ("ID", $row['wine_id']);
+      $t->setVariable ("Wine", $row['wine_name']);
+      $t->setVariable ("Variety", $row['grapes']);
+      $t->setVariable ("Year", $row['year']);
+      $t->setVariable ("Winery", $row['winery_name']);
+      $t->setVariable ("Region", $row['region_name']);
+      $t->setVariable ("MinimumCost", $row['mincost']);
+      $t->setVariable ("StockOnHand", $row['onhand']);
+      $t->setVariable ("BottlesOrdered", $row['ordered']);
+      $t->setVariable ("TotalSales", $row['revenue']);
+      $t->addBlock ("winerow");
+    }
+    $t->generateOutput();
+
   }
-
-  foreach ($results as $row) {
-    $t->setVariable ("ID", $row['wine_id']);
-    $t->setVariable ("Wine", $row['wine_name']);
-    $t->setVariable ("Variety", $row['grapes']);
-    $t->setVariable ("Year", $row['year']);
-    $t->setVariable ("Winery", $row['winery_name']);
-    $t->setVariable ("Region", $row['region_name']);
-    $t->setVariable ("MinimumCost", $row['mincost']);
-    $t->setVariable ("StockOnHand", $row['onhand']);
-    $t->setVariable ("BottlesOrdered", $row['ordered']);
-    $t->setVariable ("TotalSales", $row['revenue']);
-    $t->addBlock ("winerow");
-  }
-  $t->generateOutput();
-
-}
-
-
-
-
-
-
-
-
-
 
 
 ?>
