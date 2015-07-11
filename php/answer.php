@@ -1,10 +1,42 @@
+<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RMIT School of Computer Science and Information Technology 
+CPT 375 Web Database Applications SP2 2015    
+ASSIGNMENT 1   
+Alexandra Margaret Rodley s3372356
+
+answer.php
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ -->
+
 <?php
   require_once('config.php');
+
+  // session_start();
+
+  /* xss mitigation functions 
+  https://www.owasp.org/index.php/PHP_Security_Cheat_Sheet#Input_handling */
+
+  // function xssafe($data, $encoding='UTF-8')
+  // {
+  //    return htmlspecialchars($data, ENT_QUOTES | ENT_HTML5, $encoding);
+  // }
+
+  // function xecho($data)
+  // {
+  //    echo xssafe($data);
+  // }
+
+  // $_SESSION['winename'] = $_GET['winename'];
+
+  //htmlspecialchars($_GET['winename'], ENT_QUOTES);
 
   try {
 
     /* occasionally clearing cache during testing */
-    //apc_clear_cache();
+    apc_clear_cache();
+
+    /* for A1 at least the winestore database is never modified, 
+    but if code existed that inserted or deleted data from the table, 
+    cached searches would need to be cleared. */
 
     /* generate unique key from query 
     md5 not safe for passwords but ok for use as cache key */
@@ -19,21 +51,24 @@
 
     } else {
 
-      /* connect to DB */
-      require_once('dbconnect.php');
+      /* perform validation */
+      if (validateInput(trimInput($_GET))) {
+        /* connect to DB */
+        require_once('dbconnect.php');
 
-      /* query database */
-      $wines = getWines($dbconn, $_GET);
+        /* query database */
+        $wines = getWines($dbconn, $_GET);
 
-      /* cache search results */
-      apc_store($cache_key, $wines);
+        /* cache search results */
+        apc_store($cache_key, $wines);
 
-      /* close DB connection */
-      $dbconn = null;
+        /* close DB connection */
+        $dbconn = null;
 
-      /* redirect user to results page */
-      header("Location: ../results.php?search=$cache_key");
-      exit();     
+        /* redirect user to results page */
+        header("Location: ../results.php?search=$cache_key");
+        exit();       
+      }
 
     }
 
@@ -44,6 +79,68 @@
       die();
   }
 
+
+function trimInput($params) {
+  /* trim all input to remove whitespace */
+  foreach($params as $key=>$value) {
+    if($params[$key]) {
+      trim($params[$key]);
+    }
+  }
+  return $params;
+}
+
+
+function validateInput($params) {
+  $errorMsg = '';
+  $errorFlag = False;
+
+  /* validate individual input fields */
+  if(($params['winename']) && (strlen($params['winename']) > 50)) {
+    $errorFlag = True;
+    $errorMsg .= 'Error! Wine Name is too long. Maximum 50 characters.<br>';
+  }
+
+  if(($params['winery']) && (strlen($params['winery']) > 100)) {
+    $errorFlag = True;
+    $errorMsg .= 'Error! Winery Name is too long. Maximum 100 characters.<br>';
+  }
+
+  if(($params['onhand']) && (!preg_match('/^[0-9]{1,5}$/', $params['onhand']))) {
+    $errorFlag = True;
+    $errorMsg .= 'Error! Minimum Wines On Hand is invalid. Please enter a number, maximum 5 digits.<br>';
+  }
+
+  /* no digit length specified here since it's looking at the sum of item.qty entries.
+     Although the max(sum(item.qty)) is currently 103, this could change if the db was 
+     updated. In any case, constraining the length and calling it an error could be 
+     misleading since the user might want to know that there are no wines with a certain 
+     number of bottles ordered */
+  if(($params['ordered']) && (!preg_match('/^[0-9]$/', $params['ordered']))) {
+    $errorFlag = True;
+    $errorMsg .= 'Error! Minimum Wines Ordered is invalid. Please enter a number.<br>';
+  }
+
+  if(($params['mincost']) && (!preg_match('/^[0-9]{1,5}(\.[0-9]{0,2})?$/', $params['mincost']))) {
+    $errorFlag = True;
+    $errorMsg .= 'Error! Minimum Cost is invalid. Please enter an integer or decimal number.<br>';
+  }
+
+  if(($params['maxcost']) && (!preg_match('/^[0-9]{1,5}(\.[0-9]{0,2})?$/', $params['maxcost']))) {
+    $errorFlag = True;
+    $errorMsg .= 'Error! Maximum Cost is invalid. Please enter an integer or decimal number.<br>';
+  }
+  if ($errorFlag == True) {
+
+    reportErrors($errorMsg);
+    return False;
+
+  } else {
+
+    return True;
+  }
+
+}
 
 function getWines($dbconn, $params) {
 
@@ -58,6 +155,7 @@ function getWines($dbconn, $params) {
   if($params['winename']) {
     $ands[] = 'w.wine_name LIKE :winename ';
     $winename = '%'.$params['winename'].'%';
+
   }
 
   if($params['winery']) {
@@ -182,6 +280,16 @@ function getWines($dbconn, $params) {
 
 }
 
+function reportErrors($msg) {
+  /* use a templated html page, insert error messages */
+
+  /* cache search results - no need to keep this cached very long */
+  // apc_store($cache_key, $msg);
+
+  /* redirect user to error page */
+  header("Location: ../error.php?msg=$msg");
+  exit(); 
+}
 
 ?>
 

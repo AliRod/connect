@@ -1,12 +1,16 @@
+/* ********************************************
+RMIT School of Computer Science and Information Technology 
+CPT 375 Web Database Applications SP2 2015 		
+ASSIGNMENT 1	 
+Alexandra Margaret Rodley s3372356
 
+winestore.css
+********************************************* */
 
+/* contains some additional custom styles over bootstrap */
 
-header {
-	margin: 2em 0;
-}
-header.sr-header {
-	margin: 2em 0 0 0;
-}
+/* typography */
+
 h1 {
 	text-align: center;
 	color:#000;
@@ -16,15 +20,17 @@ h1 span.fancy {
 	font-family: 'Lobster', cursive;
 }
 
+/* page layout adjustments */
+
+header {
+	margin: 2em 0;
+}
+header.sr-header {
+	margin: 2em 0 0 0;
+}
 label {
 	text-align: right;
 }
-
-button {
-	margin-top:2em;
-	color:#fff;
-}
-
 div.sr {
 	margin-bottom: 0.5em;
 }
@@ -35,35 +41,30 @@ div.sr {
 .container, body, html {
 	height:100%;
 }
-button, .btn {
-	background:black;
-	background-color: #222;
+
+/* search form buttons */
+
+button {
+	margin-top:2em;
 }
-button:hover, .btn:hover {
+button#show-wine {
+	background:#222;
+	background-color: #222;
+	color:#fff;
+}
+button#show-wine:hover {
 	background:#222;
 }
-button:focus, .btn:focus {
+button#show-wine:focus {
 	background:#222;
 	background-color: #222;
 }
-.btn:active, button:active, .btn.active, button.active {
+button#show-wine:active, button#show-wine.active {
 	background-color: #222;
 	background:#222;
 }
 
-/* table styles */
-.fixed_headers {
-  table-layout: fixed;
-}
-
-.fixed_headers thead tr {
-  display: block;
-  position: relative;
-}
-.fixed_headers tbody {
-  display: block;
-  overflow: auto;
-}
+/* table captions */
 
 caption, .toplink {
 	padding:0 5px 10px 5px;
@@ -86,6 +87,8 @@ caption a:active, a.toplink:active {
 	color:#000;
 }
 
+/* table styles */
+
 td, th {
 	border:1px solid #fff;
 	padding: 0.7rem;
@@ -97,14 +100,16 @@ thead tr th{
 	font-weight:normal;
 	height:70px;
 }
-
 tbody tr {
 	background-color: #dfdfdf;
 	color: #333;
 }
-
 tbody tr:nth-child(even) {
 	background-color: #efeff0;
 }
+
+
+
+
 
 

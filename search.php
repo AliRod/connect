@@ -1,4 +1,32 @@
+<?php
+
+  // session_start();
+  // if (isset($_SESSION['winename'])) {
+  //   echo 'the variable is set!';
+  // }
+
+  // function xssafe($data, $encoding='UTF-8')
+  // {
+  //    return htmlspecialchars($data, ENT_QUOTES | ENT_HTML5, $encoding);
+  // }
+
+  // function xecho($data)
+  // {
+  //    echo xssafe($data);
+  // }
+
+?>
 <!DOCTYPE html>
+
+<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RMIT School of Computer Science and Information Technology 
+CPT 375 Web Database Applications SP2 2015    
+ASSIGNMENT 1   
+Alexandra Margaret Rodley s3372356
+
+search.php
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ -->
+
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -125,14 +153,22 @@
             </div>
           </div>
 
-          <button type='submit' class='btn btn-primary col-xs-6 col-xs-offset-3 btn-lg'>Show Wines</button>
+          <button id='clear-form' type='button' class='btn btn-default btn-lg col-xs-2 col-xs-offset-2'>Clear</button>
+
+          <button id='show-wine' type='submit' class='btn btn-primary col-xs-5 col-xs-offset-1 btn-lg'>Show Wines</button>
+
         </form>
       </div>
 
     </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    
     <script src="../js/bootstrap.js"></script>
+    <script src="../js/winestore.js"></script>
   </body>
 </html>
+
+
+
+
