@@ -12,28 +12,26 @@ answer.php
 
   session_start();
 
+  print_r($_GET);
+
   foreach ($_GET as $key=>$value) {
-      $_SESSION[$key] = $value;
+      $_SESSION[$key] = xssafe($value);
   }
 
-  /* xss mitigation functions 
-  https://www.owasp.org/index.php/PHP_Security_Cheat_Sheet#Input_handling */
+  print_r($_SESSION);
 
-  function xssafe($data, $encoding='UTF-8')
+  /* xss mitigation function based on code from
+  https://www.owasp.org/index.php/PHP_Security_Cheat_Sheet#Input_handling */
+  function xssafe($data)
   {
+     $encoding='UTF-8';
      return htmlspecialchars($data, ENT_QUOTES | ENT_HTML5, $encoding);
   }
-
-  function xecho($data)
-  {
-     echo xssafe($data);
-  }
-
 
   try {
 
     /* occasionally clearing cache during testing */
-    // apc_clear_cache();
+    /* apc_clear_cache(); */
 
     /* for A1 at least the winestore database is never modified, 
     but if code existed that inserted or deleted data from the table, 
@@ -54,6 +52,7 @@ answer.php
 
       /* perform validation */
       if (validateInput(trimInput($_GET))) {
+
         /* connect to DB */
         require_once('dbconnect.php');
 
@@ -70,18 +69,18 @@ answer.php
         header("Location: ../results.php?search=$cache_key");
         exit();       
       }
-
     }
 
   } catch (PDOException $e) {
       print "Error!: " . $e->getMessage() . "<br>";
 
-      /* something classier here? */
+      /* something classier here? redirect to error page? */
       die();
   }
 
 
 function trimInput($params) {
+
   /* trim all input to remove whitespace */
   foreach($params as $key=>$value) {
     if($params[$key]) {
@@ -130,6 +129,7 @@ function validateInput($params) {
     $errorFlag = True;
     $errorMsg .= 'Maximum Cost is invalid. Please enter an integer or decimal number.<br>';
   }
+
   if ($errorFlag == True) {
 
     reportErrors($errorMsg);
@@ -142,20 +142,15 @@ function validateInput($params) {
 
 }
 
+/* builds on sql base query with clauses from user input, 
+  sets up prepared PDO statement and binds parameters, 
+  makes call to database and returns results */
 function getWines($dbconn, $params) {
-
-  /* DEBUG QUERY STRING */
-  // foreach ($params as $key => $value) {
-  //   print $key."\t".$value."\n";
-  // }
-
-  /* TO DO: VALIDATION! */
 
   /* prepare AND and HAVING clauses */
   if($params['winename']) {
     $ands[] = 'w.wine_name LIKE :winename ';
     $winename = '%'.$params['winename'].'%';
-
   }
 
   if($params['winery']) {
@@ -176,7 +171,9 @@ function getWines($dbconn, $params) {
   if($params['grape'] != 'Any') $having = ' HAVING FIND_IN_SET(:grape, wvg.grapes)>0 ';
 
 
-  /* build SQL query */
+  /* base SQL query */
+  /* note: I kept w.wine_id selected in the query for debugging 
+    even though not part of the specified output */
   $sql = 'SELECT 
       w.wine_id, 
       w.wine_name,
@@ -237,7 +234,7 @@ function getWines($dbconn, $params) {
   $sql .= $having;
 
   /* debug finished query */
-  //print $sql;
+  /* print_r($sql); */
 
   /* PDO prepare statement */
   $pst = $dbconn->prepare($sql);
@@ -280,11 +277,8 @@ function getWines($dbconn, $params) {
 
 }
 
+/* redirects user to error page where message is outputted */
 function reportErrors($msg) {
-  /* use a templated html page, insert error messages */
-
-  /* cache search results - no need to keep this cached very long */
-  // apc_store($cache_key, $msg);
 
   /* redirect user to error page */
   header("Location: ../error.php?msg=$msg");

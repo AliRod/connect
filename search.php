@@ -2,17 +2,18 @@
 
   session_start();
 
-  foreach($_SESSION as $key=>$value) {
-    echo $key.' var is '.$value.'<br>';
-  }
+  // foreach($_SESSION as $key=>$value) {
+  //   echo $key.' var is '.$value.'<br>';
+  // }
 
   function fillValue($var) {
-    if (isset($var)) {
-      echo $var;
+    if (isset($_SESSION[$var])) {
+      echo $_SESSION[$var];
     } else {
-      echo null;
+      echo "";
     }
   }
+  // print_r($_SESSION);
 
   /* with this, the clear button will need to reset all variables in the session object */
 
@@ -65,7 +66,7 @@ search.php
     <div class='container'>
       <div class='centre-panel row col-md-8 col-md-offset-2'>
           <header>
-            <h1><span class='fancy'>The Wine Store</span></h1>       
+            <h1>The Wine Store</h1>       
           </header>
 
           <form class='form-horizontal' action='php/answer.php' method='GET'>
@@ -76,7 +77,7 @@ search.php
           <div class='form-group'>
             <label class='col-xs-3 control-label' for='winename'>Wine Name</label>
             <div class='col-xs-8'>
-              <input class='form-control' type='text' name='winename' value='<?php fillValue($_SESSION['winename']); ?>'>
+              <input class='form-control' type='text' name='winename' value='<?php fillValue('winename'); ?>'>
             </div>
           </div>
 
@@ -84,7 +85,7 @@ search.php
           <div class='form-group'>
             <label class='col-xs-3 control-label' for='winery'>Winery Name</label>
             <div class='col-xs-8'>
-              <input class='form-control' type='text' name='winery' value='<?php fillValue($_SESSION['winery']); ?>'>
+              <input class='form-control' type='text' name='winery' value='<?php fillValue('winery'); ?>'>
             </div>
           </div>
           <?php
@@ -152,7 +153,7 @@ search.php
           <div class='form-group'>
             <label class='col-xs-3 control-label' for='onhand'>Min Stock On Hand</label>
             <div class='col-xs-8'>
-              <input class='form-control' type='text' name='onhand' value='<?php fillValue($_SESSION['onhand']); ?>'>
+              <input class='form-control' type='text' name='onhand' value='<?php fillValue('onhand'); ?>'>
             </div>
           </div>
 
@@ -160,7 +161,7 @@ search.php
           <div class='form-group'>
             <label class='col-xs-3 control-label' for='ordered'>Min Wines Ordered</label>
             <div class='col-xs-8'>
-              <input class='form-control' type='text' name='ordered' value='<?php fillValue($_SESSION['ordered']); ?>'>
+              <input class='form-control' type='text' name='ordered' value='<?php fillValue('ordered'); ?>'>
             </div>
           </div>
 
@@ -171,17 +172,17 @@ search.php
               <p class='form-control-static'>min</p>
             </div>
             <div class='col-xs-3'>
-              <input class='form-control' type='text' name='mincost' value='<?php fillValue($_SESSION['mincost']); ?>'>
+              <input class='form-control' type='text' name='mincost' value='<?php fillValue('mincost'); ?>'>
             </div>
             <div class='col-xs-1'>
               <p class='form-control-static'>max</p>
             </div>
             <div class='col-xs-3'>
-              <input class='form-control' type='text' name='maxcost' value='<?php fillValue($_SESSION['maxcost']); ?>'>
+              <input class='form-control' type='text' name='maxcost' value='<?php fillValue('maxcost'); ?>'>
             </div>
           </div>
 
-          <button id='clear-form' type='button' class='btn btn-default btn-lg col-xs-2 col-xs-offset-2'>Clear</button>
+          <a class='button btn btn-default btn-lg col-xs-2 col-xs-offset-2' href='php/clear.php'>Clear</a>
 
           <button id='show-wine' type='submit' class='btn btn-primary col-xs-5 col-xs-offset-1 btn-lg'>Show Wines</button>
 

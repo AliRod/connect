@@ -14,9 +14,7 @@ winestore.css
 h1 {
 	text-align: center;
 	color:#000;
-}
-h1 span.fancy {
-	font-size: 2em;
+	font-size: 72px;
 	font-family: 'Lobster', cursive;
 }
 .error {
@@ -27,16 +25,16 @@ h1 span.fancy {
 /* page layout adjustments */
 
 header {
-	margin: 2em 0;
+	margin: 20px 0 10px 0;
 }
-header.sr-header {
-	margin: 2em 0 0 0;
+form {
+	margin-top:20px;
 }
 label {
 	text-align: right;
 }
 div.sr {
-	margin-bottom: 0.5em;
+	margin-bottom: 10px;
 }
 .centre-panel {
 	height:100%;
@@ -48,11 +46,17 @@ div.sr {
 .error-report {
 	padding:10px;
 }
+.caption, .totop {
+	padding:0 5px 0 5px;
+	font-size:16px;
+	line-height: 1;
+	color:#666;
+}
 
 /* search form buttons */
 
-button {
-	margin-top:2em;
+button, a.button {
+	margin-top:40px;
 }
 button#show-wine {
 	background:#222;
@@ -71,30 +75,24 @@ button#show-wine:active, button#show-wine.active {
 	background:#222;
 }
 
-/* table captions */
+/* links */
 
-caption, .toplink {
-	padding:0 5px 10px 5px;
-	font-size:16px;
-	line-height: 1;
-	color:#666;
-}
-a, a:link {
+.ws-link, .ws-link:link {
 	text-decoration: underline;
 	color:#666;
 	font-size:16px;
 }
-caption a, a.toplink {
+.ws-link.right{
 	float:right;
 }
 
-a:hover, caption a:hover, a.toplink:hover {
+.ws-link:hover {
 	color:#000;
 }
-a:visited, caption a:visited, a.toplink:visited {
+.ws-link:visited {
 	color:#666;
 }
-a:active, caption a:active, a.toplink:active {
+.ws-link:active {
 	color:#000;
 }
 
