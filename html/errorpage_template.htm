@@ -1,4 +1,15 @@
 <!DOCTYPE html>
+
+<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RMIT School of Computer Science and Information Technology 
+CPT 375 Web Database Applications SP2 2015    
+ASSIGNMENT 1   
+Alexandra Margaret Rodley s3372356
+
+errorpage_template.htm
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ -->
+
+<!-- basic html page from Twitter Bootstrap -->
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -10,8 +21,9 @@
     <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
     <!-- Bootstrap -->
     <link href="../css/bootstrap.css" rel="stylesheet">
-    <link href="../css/bootstrap-theme.css" rel="stylesheet">
+    <!-- <link href="../css/bootstrap-theme.css" rel="stylesheet"> -->
     <link href="../css/winestore.css" rel="stylesheet">
+    
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -41,22 +53,20 @@
         </div>
     </div>
 
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <!-- jQuery for StickyTableHeaders -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="../js/bootstrap.js"></script>
+    <!-- <script src="../js/bootstrap.js"></script> -->
 
     <!-- Sticky Table Headers Plugin (c) 2011 Jonas Mosbech -->
     <!-- https://github.com/jmosbech/StickyTableHeaders/blob/master/license.txt -->
     <script src="../js/jquery.stickytableheaders.min.js"></script>
     <script>
-        // adding filler rows
-        // for(var i = 0; i < 3; i++){
-        //   $('tbody tr').clone().appendTo('table');
-        // }
         var offset = $('.navbar').height();
         $("html:not(.legacy) table").stickyTableHeaders({fixedOffset: offset});
     </script>
+    <!-- Validated HTML5 -->
 
   </body>
 </html>

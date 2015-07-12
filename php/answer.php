@@ -1,41 +1,30 @@
-<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-RMIT School of Computer Science and Information Technology 
-CPT 375 Web Database Applications SP2 2015    
-ASSIGNMENT 1   
-Alexandra Margaret Rodley s3372356
-
-answer.php
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ -->
-
 <?php
+
+  /* ********************************************
+  RMIT School of Computer Science and Information Technology 
+  CPT 375 Web Database Applications SP2 2015    
+  ASSIGNMENT 1   
+  Alexandra Margaret Rodley s3372356
+
+  answer.php
+  ********************************************* */
+
   require_once('config.php');
 
   session_start();
 
-  print_r($_GET);
-
+  /* put cleaned user input variables into session */
   foreach ($_GET as $key=>$value) {
       $_SESSION[$key] = xssafe($value);
-  }
-
-  print_r($_SESSION);
-
-  /* xss mitigation function based on code from
-  https://www.owasp.org/index.php/PHP_Security_Cheat_Sheet#Input_handling */
-  function xssafe($data)
-  {
-     $encoding='UTF-8';
-     return htmlspecialchars($data, ENT_QUOTES | ENT_HTML5, $encoding);
   }
 
   try {
 
     /* occasionally clearing cache during testing */
     /* apc_clear_cache(); */
-
-    /* for A1 at least the winestore database is never modified, 
-    but if code existed that inserted or deleted data from the table, 
-    cached searches would need to be cleared. */
+    /* in current implementation the winestore db is never modified, 
+    but cached searches would need to be cleared if it was to ensure
+    up to date results. */
 
     /* generate unique key from query 
     md5 not safe for passwords but ok for use as cache key */
@@ -78,10 +67,19 @@ answer.php
       die();
   }
 
+/* ************* FUNCTIONS *************** */
 
+/* xss mitigation function based on code from
+https://www.owasp.org/index.php/PHP_Security_Cheat_Sheet#Input_handling */
+function xssafe($data) {
+
+  $encoding='UTF-8';
+  return htmlspecialchars($data, ENT_QUOTES | ENT_HTML5, $encoding);
+}
+
+/* trim inputs to remove whitespace */
 function trimInput($params) {
 
-  /* trim all input to remove whitespace */
   foreach($params as $key=>$value) {
     if($params[$key]) {
       trim($params[$key]);
@@ -90,7 +88,8 @@ function trimInput($params) {
   return $params;
 }
 
-
+/* validates all user input for field length, type and pattern 
+as appropriate according to the database definitions */
 function validateInput($params) {
   $errorFlag = False;
 

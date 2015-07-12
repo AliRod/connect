@@ -1,24 +1,23 @@
-<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-RMIT School of Computer Science and Information Technology 
-CPT 375 Web Database Applications SP2 2015    
-ASSIGNMENT 1   
-Alexandra Margaret Rodley s3372356
-
-results.php
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ -->
-
 <?php
+
+  /* ********************************************
+  RMIT School of Computer Science and Information Technology 
+  CPT 375 Web Database Applications SP2 2015    
+  ASSIGNMENT 1   
+  Alexandra Margaret Rodley s3372356
+
+  results.php
+  ********************************************* */
 
   require_once('php/config.php');
 
+  /* get search results from cache (APC) */
   $key = $_GET['search'];
-
-  //print $key;
-
   $searchresult = apc_fetch($key);
 
   fillTemplate($searchresult);
 
+  /* instructions for displaying results in template */
   function fillTemplate($results) {
 
     require_once ("php/MiniTemplator.class.php");
@@ -51,9 +50,8 @@ results.php
       $t->setVariable ("TotalSales", $row['revenue']);
       $t->addBlock ("winerow");
     }
+
     $t->generateOutput();
-
   }
-
 
 ?>
