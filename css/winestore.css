@@ -19,6 +19,10 @@ h1 span.fancy {
 	font-size: 2em;
 	font-family: 'Lobster', cursive;
 }
+.error {
+	color:#8B0000;
+	font-size: 18px;
+}
 
 /* page layout adjustments */
 
@@ -40,6 +44,9 @@ div.sr {
 }
 .container, body, html {
 	height:100%;
+}
+.error-report {
+	padding:10px;
 }
 
 /* search form buttons */
@@ -72,18 +79,22 @@ caption, .toplink {
 	line-height: 1;
 	color:#666;
 }
+a, a:link {
+	text-decoration: underline;
+	color:#666;
+	font-size:16px;
+}
 caption a, a.toplink {
 	float:right;
-	color:inherit;
-	text-decoration: underline;
 }
-caption a:hover, a.toplink:hover {
+
+a:hover, caption a:hover, a.toplink:hover {
 	color:#000;
 }
-caption a:visited, a.toplink:visited {
+a:visited, caption a:visited, a.toplink:visited {
 	color:#666;
 }
-caption a:active, a.toplink:active {
+a:active, caption a:active, a.toplink:active {
 	color:#000;
 }
 

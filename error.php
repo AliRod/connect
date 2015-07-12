@@ -11,47 +11,23 @@ error.php
 
   require_once('php/config.php');
 
-  $errorMsg = $_GET['msg'];
+  fillTemplate($_GET['msg']);
 
-  echo $errorMsg;
+  function fillTemplate($msg) {
 
-  // fillTemplate($errorMsg);
+    require_once ("php/MiniTemplator.class.php");
 
-  // function fillTemplate($msg) {
+    $t = new MiniTemplator;
 
-  //   require_once ("php/MiniTemplator.class.php");
+    $ok = $t->readTemplateFromFile ("html/errorpage_template.htm");
+    if (!$ok) die ("MiniTemplator.readTemplateFromFile failed.");
 
-  //   $numberOfResults = count($results);
+    $t->setVariable ("message", $msg);
+    $t->addBlock ("errormessages");
 
-  //   $t = new MiniTemplator;
+    $t->generateOutput();
 
-  //   $ok = $t->readTemplateFromFile ("html/searchresult_template.htm");
-  //   if (!$ok) die ("MiniTemplator.readTemplateFromFile failed.");
-
-  //   $t->setVariable ("numberOfResults", $numberOfResults);
-  //   $t->addBlock ("numresults");
-
-  //   if (count($results) > 0) {
-  //     $t->addBlock ("tablehead");
-  //     $t->addBlock ("totop");
-  //   }
-
-  //   foreach ($results as $row) {
-  //     $t->setVariable ("ID", $row['wine_id']);
-  //     $t->setVariable ("Wine", $row['wine_name']);
-  //     $t->setVariable ("Variety", $row['grapes']);
-  //     $t->setVariable ("Year", $row['year']);
-  //     $t->setVariable ("Winery", $row['winery_name']);
-  //     $t->setVariable ("Region", $row['region_name']);
-  //     $t->setVariable ("MinimumCost", $row['mincost']);
-  //     $t->setVariable ("StockOnHand", $row['onhand']);
-  //     $t->setVariable ("BottlesOrdered", $row['ordered']);
-  //     $t->setVariable ("TotalSales", $row['revenue']);
-  //     $t->addBlock ("winerow");
-  //   }
-  //   $t->generateOutput();
-
-  // }
+  }
 
 
 ?>

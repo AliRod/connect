@@ -92,23 +92,22 @@ function trimInput($params) {
 
 
 function validateInput($params) {
-  $errorMsg = '';
   $errorFlag = False;
 
   /* validate individual input fields */
   if(($params['winename']) && (strlen($params['winename']) > 50)) {
     $errorFlag = True;
-    $errorMsg .= 'Error! Wine Name is too long. Maximum 50 characters.<br>';
+    $errorMsg .= 'Wine Name is too long. Maximum 50 characters.<br>';
   }
 
   if(($params['winery']) && (strlen($params['winery']) > 100)) {
     $errorFlag = True;
-    $errorMsg .= 'Error! Winery Name is too long. Maximum 100 characters.<br>';
+    $errorMsg .= 'Winery Name is too long. Maximum 100 characters.<br>';
   }
 
   if(($params['onhand']) && (!preg_match('/^[0-9]{1,5}$/', $params['onhand']))) {
     $errorFlag = True;
-    $errorMsg .= 'Error! Minimum Wines On Hand is invalid. Please enter a number, maximum 5 digits.<br>';
+    $errorMsg .= 'Minimum Stock On Hand is invalid. Please enter a number, maximum 5 digits.<br>';
   }
 
   /* no digit length specified here since it's looking at the sum of item.qty entries.
@@ -118,17 +117,17 @@ function validateInput($params) {
      number of bottles ordered */
   if(($params['ordered']) && (!preg_match('/^[0-9]$/', $params['ordered']))) {
     $errorFlag = True;
-    $errorMsg .= 'Error! Minimum Wines Ordered is invalid. Please enter a number.<br>';
+    $errorMsg .= 'Minimum Wines Ordered is invalid. Please enter a number.<br>';
   }
 
   if(($params['mincost']) && (!preg_match('/^[0-9]{1,5}(\.[0-9]{0,2})?$/', $params['mincost']))) {
     $errorFlag = True;
-    $errorMsg .= 'Error! Minimum Cost is invalid. Please enter an integer or decimal number.<br>';
+    $errorMsg .= 'Minimum Cost is invalid. Please enter an integer or decimal number.<br>';
   }
 
   if(($params['maxcost']) && (!preg_match('/^[0-9]{1,5}(\.[0-9]{0,2})?$/', $params['maxcost']))) {
     $errorFlag = True;
-    $errorMsg .= 'Error! Maximum Cost is invalid. Please enter an integer or decimal number.<br>';
+    $errorMsg .= 'Maximum Cost is invalid. Please enter an integer or decimal number.<br>';
   }
   if ($errorFlag == True) {
 
