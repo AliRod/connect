@@ -1,9 +1,21 @@
 <?php
 
-  // session_start();
-  // if (isset($_SESSION['winename'])) {
-  //   echo 'the variable is set!';
-  // }
+  session_start();
+
+  foreach($_SESSION as $key=>$value) {
+    echo $key.' var is '.$value.'<br>';
+  }
+
+  function fillValue($var) {
+    if (isset($var)) {
+      echo $var;
+    } else {
+      echo null;
+    }
+  }
+
+  /* with this, the clear button will need to reset all variables in the session object */
+
 
   // function xssafe($data, $encoding='UTF-8')
   // {
@@ -64,7 +76,7 @@ search.php
           <div class='form-group'>
             <label class='col-xs-3 control-label' for='winename'>Wine Name</label>
             <div class='col-xs-8'>
-              <input class='form-control' type='text' name='winename'>
+              <input class='form-control' type='text' name='winename' value='<?php fillValue($_SESSION['winename']); ?>'>
             </div>
           </div>
 
@@ -72,7 +84,7 @@ search.php
           <div class='form-group'>
             <label class='col-xs-3 control-label' for='winery'>Winery Name</label>
             <div class='col-xs-8'>
-              <input class='form-control' type='text' name='winery'>
+              <input class='form-control' type='text' name='winery' value='<?php fillValue($_SESSION['winery']); ?>'>
             </div>
           </div>
           <?php
@@ -84,7 +96,11 @@ search.php
             echo "<div class='col-xs-8'><select class='form-control' name='region'>\n";
             $sql_region = "SELECT region_name FROM region ORDER BY region_name";
             foreach ($dbconn->query($sql_region) as $row) {
-              echo "<option value=\"$row[region_name]\">$row[region_name]</option>\n";
+              if ($row['region_name'] == $_SESSION['region']) {
+                echo "<option selected='selected' value='$row[region_name]'>$row[region_name]</option>\n";
+              } else {
+                echo "<option value='$row[region_name]'>$row[region_name]</option>\n";
+              }
             }
             echo "</select></div></div>";
             
@@ -95,7 +111,11 @@ search.php
             echo "<option value='Any' selected='selected'>Any</option>\n";
             $sql_grape = "SELECT variety FROM grape_variety ORDER BY variety";
             foreach ($dbconn->query($sql_grape) as $row) {
-              echo "<option value=$row[variety]>$row[variety]</option>\n";
+              if ($row['variety'] == $_SESSION['grape']) {
+                echo "<option selected='selected' value=$row[variety]>$row[variety]</option>\n";
+              } else {
+                echo "<option value=$row[variety]>$row[variety]</option>\n";
+              }
             }
             echo "</select></div></div>";
 
@@ -106,13 +126,21 @@ search.php
             echo "<div class='col-xs-3'><select class='form-control input-sm' name='minyear'>\n";
             $sql_year_min = "SELECT DISTINCT year FROM wine ORDER BY year";
             foreach ($dbconn->query($sql_year_min) as $row) {
-              echo "<option value=$row[year]>$row[year]</option>\n";
+              if ($row['year'] == $_SESSION['minyear']){
+                echo "<option selected='selected' value=$row[year]>$row[year]</option>\n";
+              } else {
+                echo "<option value=$row[year]>$row[year]</option>\n";
+              }
             }
             echo "</select></div><div class='col-xs-1'><p class='form-control-static'>to</p></div>";
             echo "<div class='col-xs-3'><select class='form-control input-sm' name='maxyear'>\n";
             $sql_year_max = "SELECT DISTINCT year FROM wine ORDER BY year DESC";
             foreach ($dbconn->query($sql_year_max) as $row) {
-              echo "<option value=$row[year]>$row[year]</option>\n";
+              if ($row['year'] == $_SESSION['maxyear']) {
+                echo "<option selected='selected' value=$row[year]>$row[year]</option>\n";
+              } else {
+                echo "<option value=$row[year]>$row[year]</option>\n";
+              }
             }
             echo "</select></div></div>";
 
@@ -124,7 +152,7 @@ search.php
           <div class='form-group'>
             <label class='col-xs-3 control-label' for='onhand'>Min Stock On Hand</label>
             <div class='col-xs-8'>
-              <input class='form-control' type='text' name='onhand'>
+              <input class='form-control' type='text' name='onhand' value='<?php fillValue($_SESSION['onhand']); ?>'>
             </div>
           </div>
 
@@ -132,7 +160,7 @@ search.php
           <div class='form-group'>
             <label class='col-xs-3 control-label' for='ordered'>Min Wines Ordered</label>
             <div class='col-xs-8'>
-              <input class='form-control' type='text' name='ordered'>
+              <input class='form-control' type='text' name='ordered' value='<?php fillValue($_SESSION['ordered']); ?>'>
             </div>
           </div>
 
@@ -143,13 +171,13 @@ search.php
               <p class='form-control-static'>min</p>
             </div>
             <div class='col-xs-3'>
-              <input class='form-control' type='text' name='mincost'>
+              <input class='form-control' type='text' name='mincost' value='<?php fillValue($_SESSION['mincost']); ?>'>
             </div>
             <div class='col-xs-1'>
               <p class='form-control-static'>max</p>
             </div>
             <div class='col-xs-3'>
-              <input class='form-control' type='text' name='maxcost'>
+              <input class='form-control' type='text' name='maxcost' value='<?php fillValue($_SESSION['maxcost']); ?>'>
             </div>
           </div>
 

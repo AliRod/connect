@@ -10,29 +10,30 @@ answer.php
 <?php
   require_once('config.php');
 
-  // session_start();
+  session_start();
+
+  foreach ($_GET as $key=>$value) {
+      $_SESSION[$key] = $value;
+  }
 
   /* xss mitigation functions 
   https://www.owasp.org/index.php/PHP_Security_Cheat_Sheet#Input_handling */
 
-  // function xssafe($data, $encoding='UTF-8')
-  // {
-  //    return htmlspecialchars($data, ENT_QUOTES | ENT_HTML5, $encoding);
-  // }
+  function xssafe($data, $encoding='UTF-8')
+  {
+     return htmlspecialchars($data, ENT_QUOTES | ENT_HTML5, $encoding);
+  }
 
-  // function xecho($data)
-  // {
-  //    echo xssafe($data);
-  // }
+  function xecho($data)
+  {
+     echo xssafe($data);
+  }
 
-  // $_SESSION['winename'] = $_GET['winename'];
-
-  //htmlspecialchars($_GET['winename'], ENT_QUOTES);
 
   try {
 
     /* occasionally clearing cache during testing */
-    apc_clear_cache();
+    // apc_clear_cache();
 
     /* for A1 at least the winestore database is never modified, 
     but if code existed that inserted or deleted data from the table, 
@@ -115,7 +116,7 @@ function validateInput($params) {
      updated. In any case, constraining the length and calling it an error could be 
      misleading since the user might want to know that there are no wines with a certain 
      number of bottles ordered */
-  if(($params['ordered']) && (!preg_match('/^[0-9]$/', $params['ordered']))) {
+  if(($params['ordered']) && (!preg_match('/^[0-9]*$/', $params['ordered']))) {
     $errorFlag = True;
     $errorMsg .= 'Minimum Wines Ordered is invalid. Please enter a number.<br>';
   }
