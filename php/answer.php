@@ -167,7 +167,8 @@ function getWines($dbconn, $params) {
 
   if($params['maxcost']) $ands[] = 'inv.mincost <= :maxcost';
 
-  if($params['grape'] != 'Any') $having = ' HAVING FIND_IN_SET(:grape, wvg.grapes)>0 ';
+  /* need to REPLACE space delimiter with comma again for correct search result */
+  if($params['grape'] != 'Any') $having = ' HAVING FIND_IN_SET(:grape, REPLACE(wvg.grapes, " ", ",")) >0 ';
 
 
   /* base SQL query */
